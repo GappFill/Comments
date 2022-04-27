@@ -82,11 +82,11 @@ DATABASES = {
     # }
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME' : 'mbwork',
-        'USER' : 'postgres',
-        'PASSWORD' : 'ihatearmY7',
-        'HOST' : 'localhost',
-        'PORT' : '',
+        'NAME' : '',  # Вводим имя базы данны
+        'USER' : '',  # Вводим имя пользователя базы данных
+        'PASSWORD' : '',  # Вводим праоль от базы данных
+        'HOST' : '',  # Хост, гда хостится база данных
+        'PORT' : '',  # Порт от хоста
     }
 }
 
