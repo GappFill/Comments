@@ -105,6 +105,7 @@
         <p>Ваш комментарий:</p>\
         <textarea name="text" cols="40" rows="10" required="" id="id_text"></textarea>\
         <input type="hidden" name="csrfmiddlewaretoken" value="m8D9CsbDhu1VTNu3NUTkVx6cn1PCkqycrJPQUjaPyrDZtPV23COsTGuGcQjw12CC">\
+        {% csrf_token %} \
         <p><input type="submit" value="Ответить"></p>\
         </form>');
 
