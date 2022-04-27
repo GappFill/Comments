@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Список статей</title>
+</head>
+<body>
+<h1>Список статей</h1>
+{% for article in articles %}
+    <div style="border-radius: 15px;  border: 2px solid black; margin-top: 15px">
+        <div style="margin-left: 15px">
+            <h3>{{article.title}}</h3>
+            <p>{{article.content}}</p>
+            <div style="margin-bottom: 15px"><a href="/article/{{ article.id }}">Прочитать подробнее</a></div>
+        </div>
+    </div>
+{% endfor %}
+</body>
+</html>

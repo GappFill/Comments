@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>article.title</title>
+    <style>
+        .articles{
+        border: 2px solid black;
+        margin-top: 15px;
+        background-color: #A9A9A9;
+        }
+        .form_add_comment{
+            border: 2px solid black;
+            margin-top:5px;
+        }
+        .form_add_comment div{
+            margin-left: 15px;
+        }
+        .form_add_comment p{
+            margin: 1px;
+        }
+        .form_add_comment h2{
+            margin: 3px;
+        }
+
+        .comment{
+            background-color: #E0E0E0;
+            border-radius: 15px;
+            margin-top: 20px;
+
+        }
+        .comment div{
+            margin-left: 20px;
+        }
+    </style>
+</head>
+<body>
+
+{% for article in article %}
+    <div class="articles">
+        <div style="margin-left: 15px">
+            <h3>{{article.title}}</h3>
+            <p>{{article.content}}</p>
+        </div>
+    </div>
+{% endfor %}
+
+<hr>
+<div  class="form_add_comment" >
+    <div>
+        <h2>Добавить новый комментарий</h2>
+        <form action="." method="post">
+            <p >Ваше имя:</p>
+            {{ form.autor }}
+            <p>Ваш комментарий:</p>
+            {{ form.text }}
+            {% csrf_token %}
+            <p><input type="submit" value="Добавить"></p>
+        </form>
+    </div>
+</div>
+
+
+<h3>Комментарии к статье</h3>
+
+
+<!--Этот цикл выгружает комментарии-->
+{% load mptt_tags %}
+<div>
+    {% recursetree comments %}  <!--    Этот цикл выгружает только комментарии, у которых нет родителей-->
+    <div  class="comment" id="{{ node.id }}">
+        <div>
+            <h3>{{ node.autor }}</h3>
+            <p>{{ node.text }}</p>
+            <button class="button" onclick="myFunction({{ node.id }})">Ответить</button>
+        </div>
+    </div>
+    <!-- Выводим все дочерние комментарии  -->
+    {% if not node.is_leaf_node %}
+        <div style="margin-left: 20px">
+          {{ children }}
+        </div>
+        {% endif %}
+    {% endrecursetree %}
+</div>
+
+<script>
+  function formExit() {
+    document.getElementById("newForm").remove();
+  }
+
+  function myFunction(id) {
+    if (document.contains(document.getElementById("newForm"))) {
+      document.getElementById("newForm").remove();
+    }
+
+    var d1 = document.getElementById(id);
+    d1.insertAdjacentHTML('afterend',
+      '<form action="." id="newForm" method="post"> \
+        <p>Ваше имя:</p>\
+        <input type="text" name="autor" maxlength="150" required="" id="id_autor">\
+        <select name="parent" style="display: none;" id="id_parentt"> \
+                <option value="' + id + '" selected="' + id + '"></option> \
+                </select> \
+        <p>Ваш комментарий:</p>\
+        <textarea name="text" cols="40" rows="10" required="" id="id_text"></textarea>\
+        <input type="hidden" name="csrfmiddlewaretoken" value="m8D9CsbDhu1VTNu3NUTkVx6cn1PCkqycrJPQUjaPyrDZtPV23COsTGuGcQjw12CC">\
+        <p><input type="submit" value="Ответить"></p>\
+        </form>');
+
+    //document.querySelector('#id_parentt [value="' + id + '"]').selected = true;
+  }
+
+  $('#myForm').trigger("reset");
+</script>
+
+</body>
+</html>
